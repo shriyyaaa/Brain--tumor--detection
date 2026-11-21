@@ -115,6 +115,3 @@ Per-class results:
 - Pretrained weights: torchvision ImageNet models
 - Grad-CAM: Selvaraju et al., *Grad-CAM: Visual Explanations from Deep Networks via Gradient-based Localization* (2017)
 
-## License
-
-MIT License (add a `LICENSE` file). The dataset has its own license; check its Kaggle page before redistributing.
