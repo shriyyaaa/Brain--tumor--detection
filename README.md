@@ -70,21 +70,26 @@ Useful training options: `--arch {resnet50,efficientnet_b0}`, `--epochs_head`, `
 
 ## Results
 
-<!-- Fill in with YOUR numbers from outputs/test_metrics.json after training -->
+Evaluated on the held-out `Testing/` set (1,600 images, 400 per class) with ResNet50, using the default two-phase training setup (5 epochs head-only, then 10 epochs fine-tuning).
 
 | Model | Test accuracy | Macro F1 |
 |---|---|---|
-| ResNet50 | _xx.x%_ | _0.xxx_ |
-| EfficientNet-B0 | _xx.x%_ | _0.xxx_ |
+| ResNet50 | 94.00% | 0.9389 |
 
-Per-class results (ResNet50):
+Per-class results:
 
-| Class | Precision | Recall | F1 |
-|---|---|---|---|
-| glioma | | | |
-| meningioma | | | |
-| notumor | | | |
-| pituitary | | | |
+| Class | Precision | Recall | F1 | Support |
+|---|---|---|---|---|
+| glioma | 0.9849 | 0.8175 | 0.8934 | 400 |
+| meningioma | 0.9244 | 0.9475 | 0.9358 | 400 |
+| notumor | 0.8869 | 1.0000 | 0.9401 | 400 |
+| pituitary | 0.9779 | 0.9950 | 0.9864 | 400 |
+
+**Takeaways**
+
+- Pituitary tumors are detected almost perfectly (F1 0.986), and meningioma is solid (F1 0.936).
+- **Glioma is the weak spot:** precision is high (0.985) but recall is only 0.818, so about 18% of gliomas are missed. The very high no-tumor recall (1.00) paired with lower no-tumor precision (0.887) suggests that many of the missed gliomas are being labeled as "no tumor". The confusion matrix below shows exactly where they go.
+- In a medical setting, missing a tumor is the costlier error, so glioma recall is the number to improve first (for example with class-weighted loss, more fine-tuning, or a stronger backbone).
 
 ![Confusion matrix](outputs/confusion_matrix.png)
 ![Training curves](outputs/training_curves.png)
